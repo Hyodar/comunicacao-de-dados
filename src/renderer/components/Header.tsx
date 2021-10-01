@@ -1,7 +1,7 @@
 
 import React from "react";
 
-export default function Header(props: any) {
+export default function Header(props: Object) {
   
   const {
     mode,

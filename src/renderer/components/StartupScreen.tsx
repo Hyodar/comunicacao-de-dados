@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import electron from "electron";
 const ipcRenderer = electron.ipcRenderer;
 
-export default function StartupScreen(props: any) {
+export default function StartupScreen(props: Object) {
 
   const {
     mode,

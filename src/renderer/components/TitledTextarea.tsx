@@ -1,7 +1,7 @@
 
 import React from "react";
 
-export default function TitledTextarea(props: any) {
+export default function TitledTextarea(props: Object) {
   
   const {
     value,

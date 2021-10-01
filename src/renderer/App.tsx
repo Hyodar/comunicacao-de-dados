@@ -8,7 +8,7 @@ import ConnectingScreen from "./components/ConnectingScreen";
 import MainScreen from "./components/MainScreen";
 import { toast, Toaster } from "react-hot-toast";
 
-function AppMain(props: any) {
+function AppMain(props: Object) {
   const [stage, setStage] = useState("startup");
   const [mode, setMode] = useState("sender");
   const [serverAddr, setServerAddr] = useState("");

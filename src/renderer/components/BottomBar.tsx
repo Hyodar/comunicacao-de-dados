@@ -3,7 +3,7 @@ import React from "react";
 
 import TitledTextarea from "./TitledTextarea";
 
-export default function BottomBar(props: any) {
+export default function BottomBar(props: Object) {
 
   const {
     mode,

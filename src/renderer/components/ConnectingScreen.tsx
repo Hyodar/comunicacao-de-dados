@@ -3,7 +3,7 @@ import React from "react";
 
 import ReactLoading from "react-loading";
 
-export default function ConnectingScreen(props: any) {
+export default function ConnectingScreen(props: Object) {
 
   const {
     mode,

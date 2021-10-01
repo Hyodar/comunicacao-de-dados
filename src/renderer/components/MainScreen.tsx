@@ -6,7 +6,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer } fro
 import BottomBar from "./BottomBar";
 import Header from "./Header";
 
-export default function MainScreen(props: any) {
+export default function MainScreen(props: Object) {
 
   const {
     mode,
