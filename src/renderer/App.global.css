@@ -1,0 +1,134 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+
+
+@font-face {
+  font-family: "Local DejaVu Sans Mono";
+  src: url("/assets/DejaVuSansMono.ttf") format("truetype");
+}
+
+body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  margin: 0px;
+  background: linear-gradient(
+    200.96deg,
+    #fedc2a -29.09%,
+    #dd5789 51.77%,
+    #7a2c9e 129.35%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 5px;
+  transition: transform ease-in 0.1s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+* {
+  font-family: "Local DejaVu Sans Mono";
+}
+
+*:focus {
+  outline: none;
+}
+
+input, select {
+  padding: 5px;
+  border: none;
+  border-radius: 5px; 
+}
+
+textarea {
+  border-radius: 10px;
+  resize: none;
+  background-color: rgba(0, 0, 0, 0.18);
+  border: none;
+  color: white;
+}
+
+textarea:read-only {
+  background-color: rgba(0, 0, 0, 0.315);
+}
+
+.top-bar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 250px;
+}
+
+.row {
+  display: flex;
+  flex-flow: row;
+}
+
+.column {
+  display: flex;
+  flex-flow: column;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.jc-space-around {
+  justify-content: space-around;
+}
+
+.p10 {
+  padding: 10px;
+}
+
+.m10 {
+  margin: 10px;
+}
+
+.grow-0 { flex-grow: 0; }
+.grow-1 { flex-grow: 1; }
+.grow-2 { flex-grow: 2; }
+.grow-3 { flex-grow: 3; }
+
+.titled-textarea {
+  display: flex;
+  flex-flow: column;
+}
+
+.titled-textarea > code {
+  font-weight: bold;
+}
+
+.titled-textarea > textarea {
+  flex-grow: 1;
+}
+
+.mode-button {
+  font-size: 20px;
+  padding: 20px;
+  transition: background-color ease-in 0.1s;
+  color: #fff;
+}
