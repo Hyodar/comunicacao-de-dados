@@ -1,8 +1,7 @@
 
 import React, { useState } from "react";
 
-import electron from "electron";
-const ipcRenderer = electron.ipcRenderer;
+import { ipcRenderer } from "electron";
 
 export default function StartupScreen(props: Object) {
 
