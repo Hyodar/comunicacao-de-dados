@@ -62,6 +62,7 @@ textarea {
 
 textarea:read-only {
   background-color: rgba(0, 0, 0, 0.315);
+  cursor: not-allowed;
 }
 
 .top-bar {
