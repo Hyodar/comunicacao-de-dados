@@ -145,7 +145,7 @@ app.on('activate', () => {
 
 import ip from "ip";
 
-ipcMain.on("ipList", (event: Electron.IpcMainEvent, ...args: any[]): void => {
+ipcMain.on("ipList", (event: Electron.IpcMainEvent): void => {
   // TODO pegar os outros IPs
   event.returnValue = [ip.address()];
 });

@@ -1,9 +1,14 @@
 
 import React from "react";
-
 import ReactLoading from "react-loading";
 
-export default function ConnectingScreen(props: Object) {
+interface ConnectingScreenProps {
+  mode: string;
+  serverAddr: string;
+  onCancelConnecting: () => void;
+}
+
+export default function ConnectingScreen(props: ConnectingScreenProps) {
 
   const {
     mode,

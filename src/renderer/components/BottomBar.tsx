@@ -3,7 +3,20 @@ import React from "react";
 
 import TitledTextarea from "./TitledTextarea";
 
-export default function BottomBar(props: Object) {
+export function textToAsciiBin(text: string) {
+  return Array.from(window.Buffer.from(text, "ascii")).map(
+      chr => chr.toString(2).padStart(8, "0")
+  ).join("");
+}
+
+interface BottomBarProps {
+  mode: string;
+  message: string;
+  onInput: (text: string) => void;
+  onSend: () => void;
+}
+
+export default function BottomBar(props: BottomBarProps) {
 
   const {
     mode,

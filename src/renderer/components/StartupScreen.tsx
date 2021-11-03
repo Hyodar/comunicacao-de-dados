@@ -1,9 +1,17 @@
 
 import React, { useState } from "react";
 
-import { ipcRenderer } from "electron";
+const { ipcRenderer } = window.require("electron");
 
-export default function StartupScreen(props: Object) {
+interface StartupScreenProps {
+  mode: string;
+  onStart: () => void;
+  serverAddr: string;
+  onModeChange: (mode: string) => void;
+  onServerAddrChange: (addr: string) => void;
+}
+
+export default function StartupScreen(props: StartupScreenProps) {
 
   const {
     mode,

@@ -1,7 +1,15 @@
 
 import React from "react";
 
-export default function TitledTextarea(props: Object) {
+interface TitledTextareaProps {
+  value: string;
+  title: string;
+  readOnly: boolean;
+  className: string;
+  onChange: (text: string) => void;
+}
+
+export default function TitledTextarea(props: TitledTextareaProps) {
   
   const {
     value,

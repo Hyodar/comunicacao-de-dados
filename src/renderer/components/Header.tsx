@@ -1,7 +1,13 @@
 
 import React from "react";
 
-export default function Header(props: Object) {
+interface HeaderProps {
+  mode: string;
+  serverAddr: string;
+  onReturn: () => void;
+}
+
+export default function Header(props: HeaderProps) {
   
   const {
     mode,
