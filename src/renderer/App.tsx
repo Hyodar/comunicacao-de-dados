@@ -50,25 +50,32 @@ function AppMain() {
     showToast('Mensagem Recebida!');
   }
 
+  function handleConnect() {
+    setStage('running');
+    showToast('Conexão aberta!');
+  }
+
+  function handleDisconnect() {
+    setStage('startup');
+    showToast('Conexão terminada!');
+  }
+
   function handleStart() {
     setStage('connecting');
     try {
       const address = serverAddr.split(':');
       const host = address[0];
       const port = parseInt(address[1], 10);
+
       if (mode === 'receiver') {
-        // to-do: passar host e port (o state de serverAddr não está atualizado no momento da inicialização)
-        setServer(Server(handleReceive));
+        setServer(Server(handleReceive, host, port, handleConnect));
       } else {
-        setClient(Client(host, port));
+        setClient(Client(host, port, handleConnect, handleDisconnect));
       }
+
     } catch (error) {
       console.log(error);
     }
-    // teste
-    setTimeout(() => {
-      setStage('running');
-    }, 1000);
   }
 
   function handleReturn() {

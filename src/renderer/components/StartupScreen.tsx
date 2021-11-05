@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -18,15 +19,20 @@ export default function StartupScreen(props: StartupScreenProps) {
   const [port, setPort] = useState(4000);
   const [addr, setAddr] = useState(addresses[0]);
 
+  useEffect(() => {
+    if (mode === "receiver") {
+      onServerAddrChange(`${addr}:${port}`);
+    }
+    else {
+      onServerAddrChange("");
+    }
+  }, [addr, port, mode]);
+
   const activeButton = { backgroundColor: 'rgba(0, 0, 0, 0.253)' };
   const disabledButton = { backgroundColor: 'rgba(0, 0, 0, 0.1)' };
 
   function handleStart() {
-    // validar dados aqui
-
-    if (mode === 'receiver') {
-      onServerAddrChange(`${addr}:${port}`);
-    }
+    // TODO validar dados aqui
 
     return onStart();
   }
