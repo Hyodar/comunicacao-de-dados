@@ -14,8 +14,11 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import ip from 'ip';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+// ------------------------------------
 
 export default class AppUpdater {
   constructor() {
@@ -140,12 +143,7 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
-
-// ------------------------------------
-
-import ip from "ip";
-
-ipcMain.on("ipList", (event: Electron.IpcMainEvent): void => {
+ipcMain.on('ipList', (event: Electron.IpcMainEvent): void => {
   // TODO pegar os outros IPs
   event.returnValue = [ip.address()];
 });

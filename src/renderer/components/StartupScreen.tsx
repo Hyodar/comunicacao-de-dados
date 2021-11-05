@@ -1,7 +1,6 @@
+import React, { useState } from 'react';
 
-import React, { useState } from "react";
-
-const { ipcRenderer } = window.require("electron");
+const { ipcRenderer } = window.require('electron');
 
 interface StartupScreenProps {
   mode: string;
@@ -12,27 +11,20 @@ interface StartupScreenProps {
 }
 
 export default function StartupScreen(props: StartupScreenProps) {
+  const { mode, onStart, serverAddr, onModeChange, onServerAddrChange } = props;
 
-  const {
-    mode,
-    onStart,
-    serverAddr,
-    onModeChange,
-    onServerAddrChange,
-  } = props;
-
-  const addresses = ipcRenderer.sendSync("ipList");
+  const addresses = ipcRenderer.sendSync('ipList');
 
   const [port, setPort] = useState(4000);
   const [addr, setAddr] = useState(addresses[0]);
-  
-  const activeButton = { backgroundColor: "rgba(0, 0, 0, 0.253)" };
-  const disabledButton = { backgroundColor: "rgba(0, 0, 0, 0.1)" };
+
+  const activeButton = { backgroundColor: 'rgba(0, 0, 0, 0.253)' };
+  const disabledButton = { backgroundColor: 'rgba(0, 0, 0, 0.1)' };
 
   function handleStart() {
     // validar dados aqui
 
-    if (mode === "receiver") {
+    if (mode === 'receiver') {
       onServerAddrChange(`${addr}:${port}`);
     }
 
@@ -40,46 +32,75 @@ export default function StartupScreen(props: StartupScreenProps) {
   }
 
   return (
-    <div style={{padding: "20px"}}>
-      <p style={{fontSize: "16px", textAlign: "center", width: "100%"}}>MODO DE OPERAÇÃO</p>
+    <div style={{ padding: '20px' }}>
+      <p style={{ fontSize: '16px', textAlign: 'center', width: '100%' }}>
+        MODO DE OPERAÇÃO
+      </p>
 
       <div className="row">
         <button
           className="mode-button"
-          style={(mode === "sender")? activeButton : disabledButton}
-          onClick={() => onModeChange("sender")}
-        >REMETENTE</button>
+          style={mode === 'sender' ? activeButton : disabledButton}
+          onClick={() => onModeChange('sender')}
+        >
+          REMETENTE
+        </button>
         <button
           className="mode-button"
-          style={(mode === "receiver")? activeButton : disabledButton}
-          onClick={() => onModeChange("receiver")}
-        >DESTINATÁRIO</button>
+          style={mode === 'receiver' ? activeButton : disabledButton}
+          onClick={() => onModeChange('receiver')}
+        >
+          DESTINATÁRIO
+        </button>
       </div>
 
-      { mode === "sender" &&
-        <div className="column jc-center" style={{textAlign: "center", marginTop: "50px"}}>
+      {mode === 'sender' && (
+        <div
+          className="column jc-center"
+          style={{ textAlign: 'center', marginTop: '50px' }}
+        >
           <p>IP:PORTA DE DESTINO</p>
-          <input value={serverAddr} onChange={ev => onServerAddrChange(ev.target.value)} />
+          <input
+            value={serverAddr}
+            onChange={(ev) => onServerAddrChange(ev.target.value)}
+          />
         </div>
-      }
-      
-      { mode === "receiver" &&
-        <div className="column jc-center" style={{textAlign: "center", marginTop: "50px"}}>
+      )}
+
+      {mode === 'receiver' && (
+        <div
+          className="column jc-center"
+          style={{ textAlign: 'center', marginTop: '50px' }}
+        >
           <p>IP</p>
-          <select value={addr} onChange={ev => setAddr(ev.target.value)}>
-            { addresses.map((ip: string, idx: number) => <option value={ip} key={idx}>{ip}</option>) }
+          <select value={addr} onChange={(ev) => setAddr(ev.target.value)}>
+            {addresses.map((ip: string, idx: number) => (
+              <option value={ip} key={idx}>
+                {ip}
+              </option>
+            ))}
           </select>
 
           <p>PORTA</p>
-          <input type="number" value={port} onChange={ev => setPort(parseInt(ev.target.value))} />
+          <input
+            type="number"
+            value={port}
+            onChange={(ev) => setPort(parseInt(ev.target.value, 10))}
+          />
         </div>
-      }
+      )}
 
-      <div className="row jc-center" style={{marginTop: "50px"}}>
+      <div className="row jc-center" style={{ marginTop: '50px' }}>
         <button
-          style={{color: "#fff", backgroundColor: "#ffffff00", fontSize: "24px"}}
+          style={{
+            color: '#fff',
+            backgroundColor: '#ffffff00',
+            fontSize: '24px',
+          }}
           onClick={handleStart}
-        >INICIAR</button>
+        >
+          INICIAR
+        </button>
       </div>
     </div>
   );

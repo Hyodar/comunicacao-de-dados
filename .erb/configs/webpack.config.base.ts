@@ -10,6 +10,7 @@ export default {
   externals: [...Object.keys(externals || {})],
 
   stats: 'errors-only',
+  target: 'node',
 
   module: {
     rules: [
