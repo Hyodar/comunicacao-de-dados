@@ -9,6 +9,7 @@ import MainScreen from './components/MainScreen';
 
 import Server from '../communication/server';
 import Client from '../communication/client';
+import ExtAscii from 'utils/ext_ascii';
 
 function AppMain() {
   const [stage, setStage] = useState('startup');
@@ -40,13 +41,13 @@ function AppMain() {
     });
   }
 
-  function handleSend() {
-    client.sendMessage(message);
+  function handleSend(buffer: Buffer) {
+    client.sendMessage(buffer);
     showToast('Mensagem Enviada!');
   }
 
-  function handleReceive(str: string) {
-    console.log('Mensagem recebida: ', str);
+  function handleReceive(buffer: Buffer) {
+    setMessage(ExtAscii.fromBuffer(buffer));
     showToast('Mensagem Recebida!');
   }
 
@@ -60,6 +61,13 @@ function AppMain() {
     showToast('Conexão terminada!');
   }
 
+  function handleServerError(errorType: string) {
+    if (errorType === 'EADDRINUSE') {
+      showToast('Endereço ocupado!');
+      setStage('startup');
+    }
+  }
+
   function handleStart() {
     setStage('connecting');
     try {
@@ -68,7 +76,7 @@ function AppMain() {
       const port = parseInt(address[1], 10);
 
       if (mode === 'receiver') {
-        setServer(Server(handleReceive, host, port, handleConnect));
+        setServer(Server(handleReceive, host, port, handleConnect, handleServerError));
       } else {
         setClient(Client(host, port, handleConnect, handleDisconnect));
       }
@@ -79,7 +87,6 @@ function AppMain() {
   }
 
   function handleReturn() {
-    // terminar conexão aqui
     if (client && mode === 'sender') {
       try {
         client.disconnect();

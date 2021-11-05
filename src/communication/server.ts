@@ -1,21 +1,24 @@
 import net from 'net';
 
 const Server = (
-  callback: (message: string) => void,
+  callback: (buffer: Buffer) => void,
   host = '127.0.0.1',
   port = 4000,
-  onConnect: () => void = () => {}
+  onConnect: () => void = () => {},
+  onError: (errorType: string) => void = () => {},
 ) => {
   const sockets: Array<net.Socket> = [];
 
   const server = net.createServer((socket: any) => {
-    socket.on('data', (data: any) => {
-      callback(data.toString());
+    socket.on('data', (data: Buffer) => {
+      callback(data);
     });
   });
 
-  server.on('error', (error: any) => {
-    console.log(error);
+  server.on('error', (error: Error) => {
+    if (error.message.indexOf('EADDRINUSE') !== -1) {
+      onError("EADDRINUSE");
+    }
   });
 
   server.listen(port, host);
@@ -27,7 +30,7 @@ const Server = (
 
   const close = () => {
     server.close();
-    
+
     sockets.forEach(socket => {
       if (!socket.destroyed) {
         socket.destroy();

@@ -21,7 +21,7 @@ const Client = (host = '127.0.0.1', port = 4000, onConnect: () => void = () => {
     disconnect();
   });
 
-  const sendMessage = (message: string) => {
+  const sendMessage = (message: string|Buffer) => {
     client.write(message);
   };
 

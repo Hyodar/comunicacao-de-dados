@@ -19,22 +19,11 @@ interface MainScreenProps {
   serverAddr: string;
   onReturn: () => void;
   onInput: (text: string) => void;
-  onSend: () => void;
-}
-
-interface MainScreenProps {
-  mode: string;
-  message: string;
-  chartData: Array<object>;
-  serverAddr: string;
-  onReturn: () => void;
-  onInput: (text: string) => void;
-  onSend: () => void;
+  onSend: (buffer: Buffer) => void;
 }
 
 export default function MainScreen(props: MainScreenProps) {
-  const { mode, message, chartData, serverAddr, onReturn, onInput, onSend } =
-    props;
+  const { mode, message, chartData, serverAddr, onReturn, onInput, onSend } = props;
 
   return (
     <div>
