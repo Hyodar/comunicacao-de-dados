@@ -14,7 +14,7 @@ import Header from './Header';
 
 interface MainScreenProps {
   mode: string;
-  message: string;
+  message: Buffer;
   chartData: Array<object>;
   serverAddr: string;
   onReturn: () => void;

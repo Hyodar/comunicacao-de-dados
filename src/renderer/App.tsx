@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.global.css';
 
@@ -10,6 +10,7 @@ import MainScreen from './components/MainScreen';
 import Server from '../communication/server';
 import Client from '../communication/client';
 import ExtAscii from 'utils/ext_ascii';
+import BufferUtils from 'utils/buffer_utils';
 
 function AppMain() {
   const [stage, setStage] = useState('startup');
@@ -17,7 +18,8 @@ function AppMain() {
   const [serverAddr, setServerAddr] = useState('');
   const [server, setServer] = useState<any>();
   const [client, setClient] = useState<any>();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(Buffer.from([]));
+  const [messageInput, setMessageInput] = useState('');
   const [chartData, setChartData] = useState([
     { idx: 0, uv: 0 },
     { idx: 1, uv: 1 },
@@ -42,12 +44,16 @@ function AppMain() {
   }
 
   function handleSend(buffer: Buffer) {
-    client.sendMessage(buffer);
+    console.log(buffer)
+    console.log(BufferUtils.bufferToBitBuffer(buffer))
+    client.sendMessage(BufferUtils.bufferToBitBuffer(buffer));
     showToast('Mensagem Enviada!');
   }
 
   function handleReceive(buffer: Buffer) {
-    setMessage(ExtAscii.fromBuffer(buffer));
+    console.log(buffer)
+    console.log(BufferUtils.bitBufferToBuffer(buffer))
+    setMessage(BufferUtils.bitBufferToBuffer(buffer));
     showToast('Mensagem Recebida!');
   }
 
@@ -102,9 +108,13 @@ function AppMain() {
     }
 
     setStage('startup');
-    setMessage('');
+    setMessageInput('');
     setServerAddr('');
   }
+
+  useEffect(() => {
+    setMessage(ExtAscii.stringToBuffer(messageInput));
+  }, [messageInput]);
 
   if (stage === 'startup') {
     return (
@@ -134,7 +144,7 @@ function AppMain() {
       onReturn={handleReturn}
       chartData={chartData}
       message={message}
-      onInput={setMessage}
+      onInput={msg => setMessageInput(msg)}
       onSend={handleSend}
     />
   );
