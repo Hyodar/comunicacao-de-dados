@@ -11,6 +11,12 @@ import Server from '../communication/server';
 import Client from '../communication/client';
 import ExtAscii from 'utils/ext_ascii';
 import BufferUtils from 'utils/buffer_utils';
+import ManchesterEncoding from 'utils/manchester';
+import Cryptography from 'utils/cryptography';
+
+function bitBufferToChartData(bitBuf: Buffer) {
+  return Array.from(bitBuf).map((el, idx) => ({ idx, uv: el }));
+}
 
 function AppMain() {
   const [stage, setStage] = useState('startup');
@@ -18,18 +24,41 @@ function AppMain() {
   const [serverAddr, setServerAddr] = useState('');
   const [server, setServer] = useState<any>();
   const [client, setClient] = useState<any>();
-  const [message, setMessage] = useState(Buffer.from([]));
+  
   const [messageInput, setMessageInput] = useState('');
-  const [chartData, setChartData] = useState([
-    { idx: 0, uv: 0 },
-    { idx: 1, uv: 1 },
-    { idx: 2, uv: 0 },
-    { idx: 3, uv: 1 },
-    { idx: 4, uv: 0 },
-    { idx: 5, uv: 1 },
-    { idx: 6, uv: 0 },
-    { idx: 7, uv: 1 },
-  ]);
+  const [message, setMessage] = useState(Buffer.from([]));
+  const [clearTextMessage, setClearTextMessage] = useState(Buffer.from([]));
+  const [binaryMessage, setBinaryMessage] = useState(Buffer.from([]));
+  const [encodingMessage, setEncodingMessage] = useState(Buffer.from([]));
+
+  const [chartData, setChartData] = useState<Array<Object>>([]);
+
+  useEffect(() => {
+    if (mode === "sender") {
+      setClearTextMessage(message);
+      setBinaryMessage(BufferUtils.bufferToBitBuffer(message));
+  
+      const encryptedMessage = Cryptography.encrypt(message);
+      setEncodingMessage(ManchesterEncoding.encode(encryptedMessage));
+    }
+    else {
+      const decodedMessage = ManchesterEncoding.decode(message);
+      const messageBuffer = Cryptography.decrypt(decodedMessage);
+  
+      setEncodingMessage(decodedMessage);
+      setBinaryMessage(BufferUtils.bufferToBitBuffer(messageBuffer));
+      setClearTextMessage(messageBuffer);
+    }
+  }, [message, mode]);
+
+  useEffect(() => {
+    if (mode === "sender") {
+      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
+    }
+    else {
+      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
+    }
+  }, [message, encodingMessage]);
 
   function showToast(msg: string) {
     toast(msg, {
@@ -147,7 +176,9 @@ function AppMain() {
       serverAddr={serverAddr}
       onReturn={handleReturn}
       chartData={chartData}
-      message={message}
+      clearTextMessage={clearTextMessage}
+      binaryMessage={binaryMessage}
+      encodingMessage={encodingMessage}
       onInput={msg => setMessageInput(msg)}
       onSend={handleSend}
     />

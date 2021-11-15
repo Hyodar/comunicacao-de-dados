@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import TitledTextarea from "./TitledTextarea";
 
 import ExtAscii from "../../utils/ext_ascii";
-import ManchesterEncoding from "../../utils/manchester";
-import Cryptography from "../../utils/cryptography";
 import BufferUtils from "../../utils/buffer_utils";
 
 interface BottomBarProps {
   mode: string;
-  message: Buffer;
+  clearTextMessage: Buffer;
+  binaryMessage: Buffer;
+  encodingMessage: Buffer;
   onInput: (text: string) => void;
   onSend: (buffer: Buffer) => void;
 }
@@ -19,32 +19,12 @@ export default function BottomBar(props: BottomBarProps) {
 
   const {
     mode,
-    message,
+    clearTextMessage,
+    binaryMessage,
+    encodingMessage,
     onInput,
     onSend,
   } = props;
-
-  let clearTextMessage: Buffer;
-  let binaryMessage: Buffer;
-  let encodingMessage: Buffer;
-
-  if (mode === "sender") {
-    console.log(message);
-    clearTextMessage = message;
-    binaryMessage = BufferUtils.bufferToBitBuffer(message);
-
-    const encryptedMessage = Cryptography.encrypt(message);
-    encodingMessage = ManchesterEncoding.encode(encryptedMessage);
-  }
-  else {
-    console.log(message);
-    const decodedMessage = ManchesterEncoding.decode(message);
-    const messageBuffer = Cryptography.decrypt(decodedMessage);
-
-    encodingMessage = decodedMessage;
-    binaryMessage = BufferUtils.bufferToBitBuffer(messageBuffer);
-    clearTextMessage = messageBuffer;
-  }
 
   return (
     <div className="bottom-bar row jc-center">

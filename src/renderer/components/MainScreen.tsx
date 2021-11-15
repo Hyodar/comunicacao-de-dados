@@ -14,7 +14,9 @@ import Header from './Header';
 
 interface MainScreenProps {
   mode: string;
-  message: Buffer;
+  clearTextMessage: Buffer;
+  binaryMessage: Buffer;
+  encodingMessage: Buffer;
   chartData: Array<object>;
   serverAddr: string;
   onReturn: () => void;
@@ -23,7 +25,17 @@ interface MainScreenProps {
 }
 
 export default function MainScreen(props: MainScreenProps) {
-  const { mode, message, chartData, serverAddr, onReturn, onInput, onSend } = props;
+  const {
+    mode,
+    clearTextMessage,
+    binaryMessage,
+    encodingMessage,
+    chartData,
+    serverAddr,
+    onReturn,
+    onInput,
+    onSend
+  } = props;
 
   return (
     <div>
@@ -54,7 +66,9 @@ export default function MainScreen(props: MainScreenProps) {
       </div>
       <BottomBar
         mode={mode}
-        message={message}
+        clearTextMessage={clearTextMessage}
+        binaryMessage={binaryMessage}
+        encodingMessage={encodingMessage}
         onInput={onInput}
         onSend={onSend}
       />
