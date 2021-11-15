@@ -72,14 +72,18 @@ function AppMain() {
       showToast('Endereço ocupado!');
       setStage('startup');
     }
+    else if (errorType === 'RANGE') {
+      showToast('Porta inválida!');
+      setStage('startup');
+    }
   }
 
   function handleStart() {
     setStage('connecting');
     try {
-      const address = serverAddr.split(':');
-      const host = address[0];
-      const port = parseInt(address[1], 10);
+      const separatorIdx = serverAddr.lastIndexOf(':');
+      const host = serverAddr.slice(0, separatorIdx);
+      const port = parseInt(serverAddr.slice(separatorIdx + 1), 10);
 
       if (mode === 'receiver') {
         setServer(Server(handleReceive, host, port, handleConnect, handleServerError));

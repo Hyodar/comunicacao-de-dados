@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-
-const { ipcRenderer } = window.require('electron');
+import Ip from '../../utils/ip';
 
 interface StartupScreenProps {
   mode: string;
@@ -14,8 +13,9 @@ interface StartupScreenProps {
 export default function StartupScreen(props: StartupScreenProps) {
   const { mode, onStart, serverAddr, onModeChange, onServerAddrChange } = props;
 
-  const addresses = ipcRenderer.sendSync('ipList');
+  const addresses = Ip.getIps();
 
+  const [portInput, setPortInput] = useState("4000");
   const [port, setPort] = useState(4000);
   const [addr, setAddr] = useState(addresses[0]);
 
@@ -27,6 +27,10 @@ export default function StartupScreen(props: StartupScreenProps) {
       onServerAddrChange("");
     }
   }, [addr, port, mode]);
+
+  useEffect(() => {
+    setPort(parseInt(portInput, 10) || 0);
+  }, [portInput]);
 
   const activeButton = { backgroundColor: 'rgba(0, 0, 0, 0.253)' };
   const disabledButton = { backgroundColor: 'rgba(0, 0, 0, 0.1)' };
@@ -91,7 +95,7 @@ export default function StartupScreen(props: StartupScreenProps) {
           <input
             type="number"
             value={port}
-            onChange={(ev) => setPort(parseInt(ev.target.value, 10))}
+            onChange={(ev) => setPortInput(ev.target.value)}
           />
         </div>
       )}
