@@ -1,6 +1,7 @@
 
 import React from "react";
 import ReactLoading from "react-loading";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 interface ConnectingScreenProps {
   mode: string;
@@ -30,7 +31,12 @@ export default function ConnectingScreen(props: ConnectingScreenProps) {
       { mode === "receiver" &&
         <div className="column jc-center" style={{marginTop: "50px"}}>
           <h1>Insira seu endereço na inicialização do remetente:</h1>
-          <input readOnly value={`${serverAddr}`} />
+          <div className="row jc-center">
+            <input readOnly value={serverAddr} />
+            <CopyToClipboard text={serverAddr}>
+              <button>Copiar</button>
+            </CopyToClipboard>
+          </div>
         </div>
       }
     </div>

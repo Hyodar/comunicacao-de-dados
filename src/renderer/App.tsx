@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.global.css';
@@ -16,7 +16,7 @@ import BufferUtils from 'utils/buffer_utils';
 import ManchesterEncoding from 'utils/manchester';
 import Cryptography from 'utils/cryptography';
 
-import useThrottle from 'utils/use_throttle';
+import debounce from "lodash";
 
 function bitBufferToChartData(bitBuf: Buffer) {
   return Array.from(bitBuf).map((el, idx) => ({ idx, uv: el }));
@@ -36,7 +36,7 @@ function AppMain() {
   const [encodingMessage, setEncodingMessage] = useState(Buffer.from([]));
 
   const [chartData, setChartData] = useState<Array<Object>>([]);
-
+  
   useEffect(() => {
     if (mode === "sender") {
       setClearTextMessage(message);
@@ -54,18 +54,31 @@ function AppMain() {
       setClearTextMessage(messageBuffer);
     }
   }, [message, mode]);
-
-  const throttledMessage = useThrottle(message, 1000);
-  const throttledEncodingMessage = useThrottle(encodingMessage, 1000);
+  
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout|null>(null);
+  const [loadingChart, setLoadingChart] = useState(false);
 
   useEffect(() => {
-    if (mode === "sender") {
-      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(throttledEncodingMessage)));
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
     }
     else {
-      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(throttledMessage)));
+      setChartData([]);
+      setLoadingChart(true);
+      setTimeoutId(
+        setTimeout(() => {
+          if (mode === "sender") {
+            setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
+          }
+          else {
+            setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
+          }
+          setLoadingChart(false);
+        }, 1000)
+      );
     }
-  }, [throttledMessage, throttledEncodingMessage]);
+  }, [message, encodingMessage]);
 
   function showToast(msg: string) {
     toast(msg, {
@@ -183,6 +196,7 @@ function AppMain() {
       serverAddr={serverAddr}
       onReturn={handleReturn}
       chartData={chartData}
+      loadingChart={loadingChart}
       clearTextMessage={clearTextMessage}
       binaryMessage={binaryMessage}
       encodingMessage={encodingMessage}
