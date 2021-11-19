@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
+
 import './App.global.css';
 
 import { toast, Toaster } from 'react-hot-toast';
@@ -13,6 +15,8 @@ import ExtAscii from 'utils/ext_ascii';
 import BufferUtils from 'utils/buffer_utils';
 import ManchesterEncoding from 'utils/manchester';
 import Cryptography from 'utils/cryptography';
+
+import useThrottle from 'utils/use_throttle';
 
 function bitBufferToChartData(bitBuf: Buffer) {
   return Array.from(bitBuf).map((el, idx) => ({ idx, uv: el }));
@@ -51,14 +55,17 @@ function AppMain() {
     }
   }, [message, mode]);
 
+  const throttledMessage = useThrottle(message, 1000);
+  const throttledEncodingMessage = useThrottle(encodingMessage, 1000);
+
   useEffect(() => {
     if (mode === "sender") {
-      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
+      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(throttledEncodingMessage)));
     }
     else {
-      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
+      setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(throttledMessage)));
     }
-  }, [message, encodingMessage]);
+  }, [throttledMessage, throttledEncodingMessage]);
 
   function showToast(msg: string) {
     toast(msg, {
