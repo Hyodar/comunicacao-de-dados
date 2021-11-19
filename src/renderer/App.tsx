@@ -59,6 +59,14 @@ function AppMain() {
   const [loadingChart, setLoadingChart] = useState(false);
 
   useEffect(() => {
+    if (mode !== "receiver") return;
+
+    setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
+  }, [message]);
+
+  useEffect(() => {
+    if (mode !== "sender") return;
+    
     if (timeoutId) {
       clearTimeout(timeoutId);
       setTimeoutId(null);
@@ -68,12 +76,7 @@ function AppMain() {
       setLoadingChart(true);
       setTimeoutId(
         setTimeout(() => {
-          if (mode === "sender") {
-            setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
-          }
-          else {
-            setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
-          }
+          setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
           setLoadingChart(false);
         }, 1000)
       );
