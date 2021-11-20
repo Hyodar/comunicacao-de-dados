@@ -147,3 +147,13 @@ textarea:read-only {
   background-color: #ffffff77;
   border-radius: 100px;
 }
+
+.recharts-brush rect:first-child{
+  stroke: #ffffff00;
+  fill: #ffffff26;
+}
+
+.recharts-brush-slide {
+  fill: #fff;
+  stroke: #fff;
+}

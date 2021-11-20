@@ -58,7 +58,7 @@ function Chart(props: ChartProps) {
               <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
               <XAxis dataKey="idx" stroke="#fff" />
               <YAxis stroke="#fff" ticks={[0, 1]} />
-              <Brush dataKey="idx" height={30} stroke="#8884d8" startIndex={0} endIndex={Math.min(data.length - 1, 50)} />
+              <Brush dataKey="idx" height={30} stroke="#fff" fill="#ffffffc9" startIndex={0} endIndex={Math.min(data.length - 1, 50)} />
               <div>aadsasdasd</div>
             </LineChart>
           </ResponsiveContainer>
