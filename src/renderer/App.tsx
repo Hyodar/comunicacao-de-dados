@@ -16,8 +16,6 @@ import BufferUtils from 'utils/buffer_utils';
 import ManchesterEncoding from 'utils/manchester';
 import Cryptography from 'utils/cryptography';
 
-import debounce from "lodash";
-
 function bitBufferToChartData(bitBuf: Buffer) {
   return Array.from(bitBuf).map((el, idx) => ({ idx, uv: el }));
 }
