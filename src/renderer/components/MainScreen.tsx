@@ -9,6 +9,7 @@ interface MainScreenProps {
   clearTextMessage: Buffer;
   binaryMessage: Buffer;
   encodingMessage: Buffer;
+  encryptingMessage: Buffer;
   chartData: Array<object>;
   loadingChart: boolean;
   serverAddr: string;
@@ -23,6 +24,7 @@ export default function MainScreen(props: MainScreenProps) {
     clearTextMessage,
     binaryMessage,
     encodingMessage,
+    encryptingMessage,
     chartData,
     loadingChart,
     serverAddr,
@@ -40,6 +42,7 @@ export default function MainScreen(props: MainScreenProps) {
         clearTextMessage={clearTextMessage}
         binaryMessage={binaryMessage}
         encodingMessage={encodingMessage}
+        encryptingMessage={encryptingMessage}
         onInput={onInput}
         onSend={onSend}
       />

@@ -11,6 +11,7 @@ interface BottomBarProps {
   clearTextMessage: Buffer;
   binaryMessage: Buffer;
   encodingMessage: Buffer;
+  encryptingMessage: Buffer;
   onInput: (text: string) => void;
   onSend: (buffer: Buffer) => void;
 }
@@ -22,6 +23,7 @@ export default function BottomBar(props: BottomBarProps) {
     clearTextMessage,
     binaryMessage,
     encodingMessage,
+    encryptingMessage,
     onInput,
     onSend,
   } = props;
@@ -37,14 +39,21 @@ export default function BottomBar(props: BottomBarProps) {
       />
       <TitledTextarea
         className="p10 m10 grow-1"
-        title="BINÁRIO"
+        title={(mode === "sender")? "BINÁRIO" : "DESCRIPTOGRAFADO"}
         value={BufferUtils.bitBufferToString(binaryMessage)}
         onChange={() => {}}
         readOnly={true}
       />
       <TitledTextarea
         className="p10 m10 grow-1"
-        title={(mode === "sender")? "CODIFICADA" : "DECODIFICADA"}
+        title={(mode === "sender")? "CRIPTOGRAFADO" : "DECODIFICADO"}
+        value={BufferUtils.bufferToBitString(encryptingMessage)}
+        onChange={() => {}}
+        readOnly={true}
+      />
+      <TitledTextarea
+        className="p10 m10 grow-1"
+        title="CODIFICADO"
         value={BufferUtils.bufferToBitString(encodingMessage)}
         onChange={() => {}}
         readOnly={true}

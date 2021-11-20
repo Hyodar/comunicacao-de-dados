@@ -32,24 +32,27 @@ function AppMain() {
   const [clearTextMessage, setClearTextMessage] = useState(Buffer.from([]));
   const [binaryMessage, setBinaryMessage] = useState(Buffer.from([]));
   const [encodingMessage, setEncodingMessage] = useState(Buffer.from([]));
+  const [encryptingMessage, setEncryptingMessage] = useState(Buffer.from([]));
 
   const [chartData, setChartData] = useState<Array<Object>>([]);
   
   useEffect(() => {
     if (mode === "sender") {
+      const encryptedMessage = Cryptography.encrypt(message);
+
       setClearTextMessage(message);
       setBinaryMessage(BufferUtils.bufferToBitBuffer(message));
-  
-      const encryptedMessage = Cryptography.encrypt(message);
+      setEncryptingMessage(encryptedMessage);
       setEncodingMessage(ManchesterEncoding.encode(encryptedMessage));
     }
     else {
       const decodedMessage = ManchesterEncoding.decode(message);
-      const messageBuffer = Cryptography.decrypt(decodedMessage);
-  
-      setEncodingMessage(decodedMessage);
-      setBinaryMessage(BufferUtils.bufferToBitBuffer(messageBuffer));
-      setClearTextMessage(messageBuffer);
+      const decryptedMessage = Cryptography.decrypt(decodedMessage);
+
+      setEncodingMessage(message);
+      setEncryptingMessage(decryptedMessage);
+      setBinaryMessage(BufferUtils.bufferToBitBuffer(decryptedMessage));
+      setClearTextMessage(decryptedMessage);
     }
   }, [message, mode]);
   
@@ -201,6 +204,7 @@ function AppMain() {
       clearTextMessage={clearTextMessage}
       binaryMessage={binaryMessage}
       encodingMessage={encodingMessage}
+      encryptingMessage={encryptingMessage}
       onInput={msg => setMessageInput(msg)}
       onSend={handleSend}
     />
