@@ -9,16 +9,9 @@ export default class Ip {
         Object.entries(interfaces).forEach(networkEntry => {
             const [interfaceName, networks] = networkEntry;
 
-            const addresses = networks?.map(el => {
-                if (el.address.startsWith("fe80")) {
-                    return `${el.address}%${interfaceName}`;
-                }
-                else {
-                    return el.address;
-                }
-            });
+            const addresses = networks?.filter(el => el.family === "IPv4");
 
-            results.push(...(addresses || []));
+            results.push(...(addresses?.map(el => el.address) || []));
         });
 
         return results;
