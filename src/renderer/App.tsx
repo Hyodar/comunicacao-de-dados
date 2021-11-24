@@ -50,7 +50,7 @@ function AppMain() {
       const decryptedMessage = Cryptography.decrypt(decodedMessage);
 
       setEncodingMessage(message);
-      setEncryptingMessage(decryptedMessage);
+      setEncryptingMessage(decodedMessage);
       setBinaryMessage(BufferUtils.bufferToBitBuffer(decryptedMessage));
       setClearTextMessage(decryptedMessage);
     }

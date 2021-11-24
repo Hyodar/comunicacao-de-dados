@@ -3,7 +3,6 @@ export default class Cryptography {
     const encrypted = text.map((value, index) =>
       index !== 0 ? value - text[index - 1] : value
     );
-    encrypted.reverse();
     return Buffer.from(encrypted);
   }
 
@@ -11,7 +10,6 @@ export default class Cryptography {
     const decrypted: number[] = [];
 
     text
-      .reverse()
       .forEach((value, index) =>
         decrypted.push(index !== 0 ? value + decrypted[index - 1] : value)
       );
