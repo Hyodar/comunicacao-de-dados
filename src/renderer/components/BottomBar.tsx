@@ -39,7 +39,7 @@ export default function BottomBar(props: BottomBarProps) {
       <TitledTextarea
         className="p10 m10 grow-1"
         style={{ order: (mode === "sender")? 2 : 3 }}
-        title={(mode === "sender")? "CRIPTOGRAFADO" : "DECODIFICADO"}
+        title="CRIPTOGRAFADO"
         value={ExtAscii.bufferToString(encryptingMessage)}
         onChange={() => {}}
         readOnly={true}
@@ -47,7 +47,7 @@ export default function BottomBar(props: BottomBarProps) {
       <TitledTextarea
         className="p10 m10 grow-1"
         style={{ order: (mode === "sender")? 3 : 2 }}
-        title={(mode === "sender")? "BINÁRIO" : "DESCRIPTOGRAFADO"}
+        title="BINÁRIO"
         value={BufferUtils.bufferToBitString(encryptingMessage)}
         onChange={() => {}}
         readOnly={true}

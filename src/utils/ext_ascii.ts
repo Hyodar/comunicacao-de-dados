@@ -1,7 +1,7 @@
 
 import iconv from "iconv-lite";
 
-const encodingName = "cp437";
+const encodingName = "windows-1252";
 
 export default class ExtAscii {
     static stringToBuffer(text: string): Buffer {
