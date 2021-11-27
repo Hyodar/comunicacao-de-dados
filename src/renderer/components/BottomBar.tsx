@@ -32,6 +32,7 @@ export default function BottomBar(props: BottomBarProps) {
     <div className="bottom-bar row jc-center">
       <TitledTextarea
         className="p10 m10 grow-1"
+        style={{ order: (mode === "sender")? 1 : 4 }}
         title="MENSAGEM"
         value={ExtAscii.bufferToString(clearTextMessage)}
         onChange={onInput}
@@ -39,6 +40,7 @@ export default function BottomBar(props: BottomBarProps) {
       />
       <TitledTextarea
         className="p10 m10 grow-1"
+        style={{ order: (mode === "sender")? 2 : 3 }}
         title={(mode === "sender")? "BINÁRIO" : "DESCRIPTOGRAFADO"}
         value={BufferUtils.bitBufferToString(binaryMessage)}
         onChange={() => {}}
@@ -46,6 +48,7 @@ export default function BottomBar(props: BottomBarProps) {
       />
       <TitledTextarea
         className="p10 m10 grow-1"
+        style={{ order: (mode === "sender")? 3 : 2 }}
         title={(mode === "sender")? "CRIPTOGRAFADO" : "DECODIFICADO"}
         value={BufferUtils.bufferToBitString(encryptingMessage)}
         onChange={() => {}}
@@ -54,12 +57,13 @@ export default function BottomBar(props: BottomBarProps) {
       <TitledTextarea
         className="p10 m10 grow-1"
         title="CODIFICADO"
+        style={{ order: (mode === "sender")? 4 : 1 }}
         value={BufferUtils.bufferToBitString(encodingMessage)}
         onChange={() => {}}
         readOnly={true}
       />
       { (mode === "sender") && 
-        <div className="p10 m10">
+        <div className="p10 m10" style={{ order: 5 }}>
           <button style={{height: "100%", backgroundColor: "#ffffff22", color: "white"}} onClick={() => onSend(encodingMessage)}>
             <p style={{fontSize: "50px"}}>&#9656;</p>
             <p className="p10">ENVIAR</p>
