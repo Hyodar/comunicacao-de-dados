@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.global.css';
@@ -30,7 +30,6 @@ function AppMain() {
   const [messageInput, setMessageInput] = useState('');
   const [message, setMessage] = useState(Buffer.from([]));
   const [clearTextMessage, setClearTextMessage] = useState(Buffer.from([]));
-  const [binaryMessage, setBinaryMessage] = useState(Buffer.from([]));
   const [encodingMessage, setEncodingMessage] = useState(Buffer.from([]));
   const [encryptingMessage, setEncryptingMessage] = useState(Buffer.from([]));
 
@@ -41,7 +40,6 @@ function AppMain() {
       const encryptedMessage = Cryptography.encrypt(message);
 
       setClearTextMessage(message);
-      setBinaryMessage(BufferUtils.bufferToBitBuffer(message));
       setEncryptingMessage(encryptedMessage);
       setEncodingMessage(ManchesterEncoding.encode(encryptedMessage));
     }
@@ -51,7 +49,6 @@ function AppMain() {
 
       setEncodingMessage(message);
       setEncryptingMessage(decodedMessage);
-      setBinaryMessage(BufferUtils.bufferToBitBuffer(decryptedMessage));
       setClearTextMessage(decryptedMessage);
     }
   }, [message, mode]);
@@ -202,7 +199,6 @@ function AppMain() {
       chartData={chartData}
       loadingChart={loadingChart}
       clearTextMessage={clearTextMessage}
-      binaryMessage={binaryMessage}
       encodingMessage={encodingMessage}
       encryptingMessage={encryptingMessage}
       onInput={msg => setMessageInput(msg)}
