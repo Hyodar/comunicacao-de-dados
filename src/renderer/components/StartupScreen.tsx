@@ -8,10 +8,20 @@ interface StartupScreenProps {
   serverAddr: string;
   onModeChange: (mode: string) => void;
   onServerAddrChange: (addr: string) => void;
+  cryptoKey: string;
+  setCryptoKey: (key: string) => void;
 }
 
 export default function StartupScreen(props: StartupScreenProps) {
-  const { mode, onStart, serverAddr, onModeChange, onServerAddrChange } = props;
+  const {
+    mode,
+    onStart,
+    serverAddr,
+    onModeChange,
+    onServerAddrChange,
+    cryptoKey,
+    setCryptoKey
+  } = props;
 
   const addresses = Ip.getIps();
 
@@ -99,6 +109,11 @@ export default function StartupScreen(props: StartupScreenProps) {
           />
         </div>
       )}
+
+      <div className="row jc-center" style={{ marginTop: '20px' }}>
+        <span>CHAVE:</span>
+        <input value={cryptoKey} onChange={(ev) => setCryptoKey(ev.target.value)} />
+      </div>
 
       <div className="row jc-center" style={{ marginTop: '50px' }}>
         <button

@@ -239,6 +239,7 @@
     "electron-log": "^4.4.1",
     "electron-updater": "^4.3.9",
     "history": "4.x.x",
+    "iconv-lite": "^0.6.3",
     "ip": "^1.1.5",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",

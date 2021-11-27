@@ -1,19 +1,15 @@
+
 export default class Cryptography {
-  static encrypt(text: Buffer): Buffer {
-    const encrypted = text.map((value, index) =>
-      index !== 0 ? value - text[index - 1] : value
-    );
-    return Buffer.from(encrypted);
+  
+  static encrypt(text: Buffer, key: string): Buffer {
+    return Buffer.from(text.map((value, index) => 
+      (value + key.charCodeAt(index % key.length)) % 256
+    ));
   }
 
-  static decrypt(text: Buffer): Buffer {
-    const decrypted: number[] = [];
-
-    text
-      .forEach((value, index) =>
-        decrypted.push(index !== 0 ? value + decrypted[index - 1] : value)
-      );
-
-    return Buffer.from(decrypted);
+  static decrypt(text: Buffer, key: string): Buffer {
+    return Buffer.from(text.map((value, index) => 
+      (value - key.charCodeAt(index % key.length) + 256) % 256
+    ));
   }
 }

@@ -1,10 +1,14 @@
 
+import iconv from "iconv-lite";
+
+const encodingName = "cp437";
+
 export default class ExtAscii {
     static stringToBuffer(text: string): Buffer {
-        return Buffer.from(text, "latin1");
+        return iconv.encode(text, encodingName);
     }
 
     static bufferToString(buf: Buffer): string {
-        return buf.toString("latin1");
+        return iconv.decode(buf, encodingName);
     }
 }

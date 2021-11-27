@@ -26,6 +26,7 @@ function AppMain() {
   const [serverAddr, setServerAddr] = useState('');
   const [server, setServer] = useState<any>();
   const [client, setClient] = useState<any>();
+  const [cryptoKey, setCryptoKey] = useState("p4ssw0rd");
   
   const [messageInput, setMessageInput] = useState('');
   const [message, setMessage] = useState(Buffer.from([]));
@@ -37,7 +38,7 @@ function AppMain() {
   
   useEffect(() => {
     if (mode === "sender") {
-      const encryptedMessage = Cryptography.encrypt(message);
+      const encryptedMessage = Cryptography.encrypt(message, cryptoKey);
 
       setClearTextMessage(message);
       setEncryptingMessage(encryptedMessage);
@@ -45,13 +46,13 @@ function AppMain() {
     }
     else {
       const decodedMessage = ManchesterEncoding.decode(message);
-      const decryptedMessage = Cryptography.decrypt(decodedMessage);
+      const decryptedMessage = Cryptography.decrypt(decodedMessage, cryptoKey);
 
       setEncodingMessage(message);
       setEncryptingMessage(decodedMessage);
       setClearTextMessage(decryptedMessage);
     }
-  }, [message, mode]);
+  }, [message, mode, cryptoKey]);
   
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout|null>(null);
   const [loadingChart, setLoadingChart] = useState(false);
@@ -178,6 +179,8 @@ function AppMain() {
         onModeChange={setMode}
         onStart={handleStart}
         onServerAddrChange={setServerAddr}
+        cryptoKey={cryptoKey}
+        setCryptoKey={setCryptoKey}
       />
     );
   }
