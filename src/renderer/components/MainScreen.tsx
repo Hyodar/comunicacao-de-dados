@@ -6,6 +6,7 @@ import Chart from './Chart';
 
 interface MainScreenProps {
   mode: string;
+  messageInput: string;
   clearTextMessage: Buffer;
   encodingMessage: Buffer;
   encryptingMessage: Buffer;
@@ -20,6 +21,7 @@ interface MainScreenProps {
 export default function MainScreen(props: MainScreenProps) {
   const {
     mode,
+    messageInput,
     clearTextMessage,
     encodingMessage,
     encryptingMessage,
@@ -37,6 +39,7 @@ export default function MainScreen(props: MainScreenProps) {
       <Chart data={chartData} loading={loadingChart} />
       <BottomBar
         mode={mode}
+        messageInput={messageInput}
         clearTextMessage={clearTextMessage}
         encodingMessage={encodingMessage}
         encryptingMessage={encryptingMessage}

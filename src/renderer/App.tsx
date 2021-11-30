@@ -68,18 +68,16 @@ function AppMain() {
     
     if (timeoutId) {
       clearTimeout(timeoutId);
-      setTimeoutId(null);
     }
-    else {
-      setChartData([]);
-      setLoadingChart(true);
-      setTimeoutId(
-        setTimeout(() => {
-          setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
-          setLoadingChart(false);
-        }, 1000)
-      );
-    }
+
+    setChartData([]);
+    setLoadingChart(true);
+    setTimeoutId(
+      setTimeout(() => {
+        setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
+        setLoadingChart(false);
+      }, 1000)
+    );
   }, [message, encodingMessage]);
 
   function showToast(msg: string) {
@@ -201,6 +199,7 @@ function AppMain() {
       onReturn={handleReturn}
       chartData={chartData}
       loadingChart={loadingChart}
+      messageInput={messageInput}
       clearTextMessage={clearTextMessage}
       encodingMessage={encodingMessage}
       encryptingMessage={encryptingMessage}

@@ -8,6 +8,7 @@ import BufferUtils from "../../utils/buffer_utils";
 
 interface BottomBarProps {
   mode: string;
+  messageInput: string;
   clearTextMessage: Buffer;
   encodingMessage: Buffer;
   encryptingMessage: Buffer;
@@ -19,6 +20,7 @@ export default function BottomBar(props: BottomBarProps) {
 
   const {
     mode,
+    messageInput,
     clearTextMessage,
     encodingMessage,
     encryptingMessage,
@@ -32,7 +34,7 @@ export default function BottomBar(props: BottomBarProps) {
         className="p10 m10 grow-1"
         style={{ order: (mode === "sender")? 1 : 4 }}
         title="MENSAGEM"
-        value={ExtAscii.bufferToString(clearTextMessage)}
+        value={(mode === "sender")? messageInput : ExtAscii.bufferToString(clearTextMessage)}
         onChange={onInput}
         readOnly={mode === "receiver"}
       />
