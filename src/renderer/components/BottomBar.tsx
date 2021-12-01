@@ -58,7 +58,7 @@ export default function BottomBar(props: BottomBarProps) {
         className="p10 m10 grow-1"
         title="CODIFICADO"
         style={{ order: (mode === "sender")? 4 : 1 }}
-        value={BufferUtils.bufferToBitString(encodingMessage)}
+        value={Array.from(encodingMessage).map((el, idx) => encodingMessage.readInt8(idx)).join(",")}
         onChange={() => {}}
         readOnly={true}
       />

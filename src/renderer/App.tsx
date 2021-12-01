@@ -16,7 +16,7 @@ import BufferUtils from 'utils/buffer_utils';
 import ManchesterEncoding from 'utils/manchester';
 import Cryptography from 'utils/cryptography';
 
-function bitBufferToChartData(bitBuf: Buffer) {
+function bitBufferToChartData(bitBuf: Array<any>) {
   return Array.from(bitBuf).map((el, idx) => ({ idx, uv: el }));
 }
 
@@ -60,7 +60,7 @@ function AppMain() {
   useEffect(() => {
     if (mode !== "receiver") return;
 
-    setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(message)));
+    setChartData(bitBufferToChartData(Array.from(encodingMessage).map((el, idx) => encodingMessage.readInt8(idx))));
   }, [message]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function AppMain() {
     setLoadingChart(true);
     setTimeoutId(
       setTimeout(() => {
-        setChartData(bitBufferToChartData(BufferUtils.bufferToBitBuffer(encodingMessage)));
+        setChartData(bitBufferToChartData(Array.from(encodingMessage).map((el, idx) => encodingMessage.readInt8(idx))));
         setLoadingChart(false);
       }, 1000)
     );
@@ -93,16 +93,12 @@ function AppMain() {
   }
 
   function handleSend(buffer: Buffer) {
-    console.log(buffer)
-    console.log(BufferUtils.bufferToBitBuffer(buffer))
-    client.sendMessage(BufferUtils.bufferToBitBuffer(buffer));
+    client.sendMessage(buffer);
     showToast('Mensagem Enviada!');
   }
 
   function handleReceive(buffer: Buffer) {
-    console.log(buffer)
-    console.log(BufferUtils.bitBufferToBuffer(buffer))
-    setMessage(BufferUtils.bitBufferToBuffer(buffer));
+    setMessage(buffer);
     showToast('Mensagem Recebida!');
   }
 
